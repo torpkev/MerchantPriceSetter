@@ -1,0 +1,72 @@
+# Enchanted books should have material ENCHANTED_BOOK
+# Valid enchantments as of 1.14.4 are:
+# ARROW_DAMAGE, ARROW_FIRE, ARROW_INFINITE, ARROW_KNOCKBACK, BINDING_CURSE, CHANNELING, DAMAGE_ALL, DAMAGE_ARTHROPODS,
+# DAMAGE_UNDEAD, DEPTH_STRIDER, DIG_SPEED, DURABILITY, FIRE_ASPECT, FROST_WALKER, IMPALING, KNOCKBACK, LOOT_BONUS_BLOCKS
+# LOOT_BONUS_MOBS, LOYALTY, LUCK, LURE, MENDING, MULTISHOT, OXYGEN, PIERCING, PROTECTION_ENVIRONMENTAL,
+# PROTECTION_EXPLOSIONS, PROTECTION_FALL, PROTECTION_FIRE, PROTECTION_PROJECTILE, QUICK_CHARGE, RIPTIDE, SILK_TOUCH,
+# SWEEPING_EDGE, THORNS, VANISHING_CURSE, WATER_WORKER
+# Amount & Min/Max Price can be between 0 and 64
+# EXAMPLE:
+#
+# items:
+#   bane1:  # <- Enter an easy to remember name here
+#     material: ENCHANTED_BOOK # <- This is the item being purchased from the merchant
+#     enchantment: DAMAGE_ARTHROPODS # <- This is the enchantment, see list above
+#     level: 1 # <- This is the enchantment level.  For enchantments without levels, use 1
+#     amount: 1 # <- for enchanted books, this is always 1
+#     min_price: 15  # <- minimum buy price from merchant is 15 emeralds
+#     max_price: 30  # <- maximum buy price from merchant is 30 emeralds
+#   pumpkinpie1: # <- Here we're buying pumpkin pies, setting price for a single pie
+#     material: PUMPKIN_PIE # <- item being bought
+#     amount: 1 # <- amount being purchased
+#     # Note that there is no enchantment or level as it isn't an enchanted book
+#     min_price: 1 # <- minimum buy price from merchant for 1 pumpkin pie is 1 emerald
+#     max_price: 2 # <- maximum buy price from merchant for 1 pumpkin pie is 2 emeralds
+#   pumpkinpie2: # <- Here we're buying pumpkin pies, setting price for a two pies
+#     material: PUMPKIN_PIE # <- item being bought
+#     amount: 2 # <- amount being purchased
+#     # Note that there is no enchantment or level as it isn't an enchanted book
+#     min_price: 2 # <- minimum buy price from merchant for 2 pumpkin pies is 1 emerald
+#     max_price: 3 # <- maximum buy price from merchant for 2 pumpkin pies is 2 emeralds
+items:
+  bane1:
+    material: ENCHANTED_BOOK
+    enchantment: DAMAGE_ARTHROPODS
+    level: 1
+    amount: 1
+    min_price: 15
+    max_price: 30
+  bane2:
+    material: ENCHANTED_BOOK
+    enchantment: DAMAGE_ARTHROPODS
+    level: 2
+    amount: 1
+    min_price: 20
+    max_price: 35
+  bane3:
+    material: ENCHANTED_BOOK
+    enchantment: DAMAGE_ARTHROPODS
+    level: 3
+    amount: 1
+    min_price: 25
+    max_price: 35
+  pumpkinpie1:
+    material: PUMPKIN_PIE
+    amount: 1
+    min_price: 1
+    max_price: 2
+  pumpkinpie2:
+    material: PUMPKIN_PIE
+    amount: 2
+    min_price: 2
+    max_price: 3
+  pumpkinpie3:
+    material: PUMPKIN_PIE
+    amount: 3
+    min_price: 3
+    max_price: 4
+  pumpkinpie4:
+    material: PUMPKIN_PIE
+    amount: 4
+    min_price: 4
+    max_price: 5

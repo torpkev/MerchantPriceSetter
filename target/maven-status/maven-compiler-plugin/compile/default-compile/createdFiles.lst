@@ -1,0 +1,6 @@
+work\torp\merchantpricesetter\util\Locale.class
+work\torp\merchantpricesetter\util\Logging.class
+work\torp\merchantpricesetter\util\MPSConfig$TradeItems.class
+work\torp\merchantpricesetter\listeners\InventoryListener.class
+work\torp\merchantpricesetter\MerchantPriceSetter.class
+work\torp\merchantpricesetter\util\MPSConfig.class
