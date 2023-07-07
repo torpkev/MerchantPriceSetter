@@ -1,13 +1,22 @@
 package work.torp.merchantpricesetter;
 
+import com.ibexmc.internal.Internal;
+import com.ibexmc.internal.data.Data;
+import com.ibexmc.internal.messaging.Debug;
+import com.ibexmc.internal.messaging.Error;
+import com.ibexmc.internal.messaging.Log;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import work.torp.merchantpricesetter.listeners.InventoryListener;
-import work.torp.merchantpricesetter.util.Logging;
 import work.torp.merchantpricesetter.util.MPSConfig;
 
 public class MerchantPriceSetter extends JavaPlugin {
+
+    private Internal ibexInternal = null;
+    private Data data = null;
+    private Debug debug = null;
+    private Log log = null;
+    private Error error = null;
 
     // Naming
     public static final String displayName = "MerchantPriceSetter";
@@ -30,12 +39,32 @@ public class MerchantPriceSetter extends JavaPlugin {
 
     // Listeners
     public void loadEventListeners() {
-        Logging.dev("Stereo", "loadEventListeners()", "Starting Event Listeners");
+        debug.log("MerchantPriceSetter", "loadEventListeners", "Starting event listeners");
         try {
             Bukkit.getPluginManager().registerEvents(new InventoryListener(), this);
         } catch (Exception ex) {
-            Logging.log("Load Event Listeners", "Unexpected Error - " + ex.getMessage());
+            error.save(
+                    "MPS_LEL_001",
+                    "MerchantPriceSetter",
+                    "loadEventListeners",
+                    "Unexpected Error",
+                    ex.getMessage(),
+                    Error.Severity.URGENT,
+                    ex.getStackTrace()
+            );
         }
+    }
+
+    public Debug getDebug() {
+        return debug;
+    }
+
+    public Log getLog() {
+        return log;
+    }
+
+    public Error getError() {
+        return error;
     }
 
     @Override
@@ -43,19 +72,17 @@ public class MerchantPriceSetter extends JavaPlugin {
 
         instance = this;
 
-        Logging.log(
-                ">",
-                ChatColor.AQUA + "=========================================" + ChatColor.GOLD + " [<]"
-        );
+        ibexInternal = new Internal(this, displayName);
+        data = ibexInternal.getData();
+        debug = ibexInternal.getDebug();
+        log = ibexInternal.getLog();
+        error = ibexInternal.getError();
 
-        Logging.log(
-                "",
-                ChatColor.AQUA + "          " + displayName + " - " + getDescription().getVersion() + ChatColor.GOLD + "             "
-        );
-        Logging.log(
-                ">",
-                ChatColor.AQUA + "=========================================" + ChatColor.GOLD + " [<]"
-        );
+        //data.setDebugMode(true);
+
+        log.log("&6>&b=========================================");
+        log.log("&6>&f" + displayName + " - " + getDescription().getVersion());
+        log.log("&6>&b=========================================");
 
         saveDefaultConfig();
 

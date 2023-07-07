@@ -1,5 +1,7 @@
 package work.torp.merchantpricesetter.util;
 
+import com.ibexmc.internal.functions.StringFunctions;
+import com.ibexmc.internal.messaging.Error;
 import javafx.util.Pair;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -80,19 +82,16 @@ public class MPSConfig {
     }
 
     public MPSConfig(MerchantPriceSetter plugin) {
-        Logging.dev(
-                "Config",
-                "Constructor(Plugin)",
+        MerchantPriceSetter.getInstance().getDebug().log(
+                "MPSConfig",
+                "MPSConfig",
                 "Constructing Config"
         );
-
 
         // Getting config
         try {
             if (plugin.getConfig().contains("items")) {
-                Logging.log("", "Found items");
                 for (String path : plugin.getConfig().getConfigurationSection("items").getKeys(false)) {
-                    Logging.log("", "Found items - " + path);
                     if (plugin.getConfig().contains("items." + path + ".material")) {
                         if (plugin.getConfig().isString("items." + path + ".material")) {
                             Material material = Material.AIR;
@@ -101,7 +100,7 @@ public class MPSConfig {
                             int amount = 1;
                             int minPrice = 1;
                             int maxPrice = 64;
-                            material = materialFromName(plugin.getConfig().getString("items." + path + ".material"));
+                            material = StringFunctions.stringToMaterial(plugin.getConfig().getString("items." + path + ".material"));
                             if (material != Material.AIR) {
                                 if (material.equals(Material.ENCHANTED_BOOK)) {
                                     if (plugin.getConfig().contains("items." + path + ".enchantment")) {
@@ -149,36 +148,25 @@ public class MPSConfig {
                                 }
                                 TradeItems tradeItems = new TradeItems(material, enchantment, level, amount, minPrice, maxPrice);
 
-                                Logging.dev("MPSConfig", "Constructor", "HashCode: " + tradeItems.toHashCode() + " - " + tradeItems.toString());
-
                                 tradeItemsPairHashMap.put(tradeItems.toHashCode(), tradeItems);
-                            } else {
-                                Logging.log("", "Material returned as AIR");
                             }
                         }
                     }
                 }
             }
         } catch (Exception ex) {
-            Logging.log("Loading Config", "Unexpected Error: " + ex.getMessage());
+            MerchantPriceSetter.getInstance().getError().save(
+                    "MPS_Conf_001",
+                    "MerchantPriceSetter",
+                    "Constructor",
+                    "Unexpected Error",
+                    ex.getMessage(),
+                    Error.Severity.URGENT,
+                    ex.getStackTrace()
+            );
         }
     }
 
-    private Material materialFromName(String materialName) {
-        Material mat;
-        if (materialName != null) {
-            try {
-                mat = Material.getMaterial(materialName);
-            } catch (Exception ex) {
-                Logging.dev("MPSConfig", "materialFromName", "Invalid Material name: " + materialName + " - " + ex.getMessage());
-                mat = Material.AIR;
-            }
-        } else{
-            Logging.dev("MPSConfig", "materialFromName", "Invalid Material name: " + materialName);
-            mat = Material.AIR;
-        }
-        return mat;
-    }
     private Enchantment enchantmentFromName(String enchantmentName) {
         Enchantment enchantment;
         // Ugly switch statement - work out how to get it by NameSpacedKey

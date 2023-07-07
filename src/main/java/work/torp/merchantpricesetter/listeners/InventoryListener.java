@@ -11,7 +11,6 @@ import org.bukkit.inventory.Merchant;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import work.torp.merchantpricesetter.MerchantPriceSetter;
-import work.torp.merchantpricesetter.util.Logging;
 import work.torp.merchantpricesetter.util.MPSConfig;
 
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class InventoryListener implements Listener {
     public void onInventoryOpen(InventoryOpenEvent event)
     {
         if (event.getInventory().getType().equals(InventoryType.MERCHANT)) {
-            Logging.dev("InventoryListener", "onInventoryOpen", "Started: " + event.getInventory().getType().name());
+           // Logging.dev("InventoryListener", "onInventoryOpen", "Started: " + event.getInventory().getType().name());
             // Check if the inventory is a Merchant type
             if (event.getInventory().getHolder() instanceof Merchant) {
                 // Get the Merchant
@@ -34,7 +33,7 @@ public class InventoryListener implements Listener {
 
                 HashMap<Integer, MPSConfig.TradeItems> tradesMap = MerchantPriceSetter.getInstance().getMPSConfig().getTradeItems();
                 if (tradesMap == null) {
-                    Logging.dev("InventoryListener", "onInventoryOpen", "Config list is null");
+                    //Logging.dev("InventoryListener", "onInventoryOpen", "Config list is null");
                     return;
                 }
 
@@ -65,8 +64,6 @@ public class InventoryListener implements Listener {
                         amount = merchantRecipe.getResult().getAmount();
 
                         MPSConfig.TradeItems tradeItems = new MPSConfig.TradeItems(material, enchantment, level, amount, 0, 0);
-                        Logging.dev("InventoryListener", "onInventoryOpen", "HashCode: " + tradeItems.toHashCode() + " - " + tradeItems.toString());
-
                         if (tradesMap.containsKey(tradeItems.toHashCode())) {
                             MPSConfig.TradeItems trades = tradesMap.get(tradeItems.toHashCode());
                             min_price = trades.getMinPrice();
@@ -91,18 +88,29 @@ public class InventoryListener implements Listener {
 
                         } else {
                             // Trade item not found
-                           // Logging.log("", tradeItems.toString());
-                            Logging.dev("InventoryListener", "onInventoryOpen", "Trade Item Not Found");
+                            MerchantPriceSetter.getInstance().getDebug().log(
+                                    "InventoryListener",
+                                    "onInventoryOpen",
+                                    "Trade Item Not Found"
+                            );
                         }
 
                     } else {
                         // Item is air
-                        Logging.dev("InventoryListener", "onInventoryOpen", "Trade Item Material is AIR");
+                        MerchantPriceSetter.getInstance().getDebug().log(
+                                "InventoryListener",
+                                "onInventoryOpen",
+                                "Trade Item Material is AIR"
+                        );
                     }
                 }
             } else {
                 // merchant is null
-                Logging.dev("InventoryListener", "onInventoryOpen", "Merchant returned null");
+                MerchantPriceSetter.getInstance().getDebug().log(
+                        "InventoryListener",
+                        "onInventoryOpen",
+                        "Merchant returned null"
+                );
             }
         }
     }
